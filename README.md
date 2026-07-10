@@ -208,6 +208,7 @@ Included tests:
 - Settlement is calculated using the minimum number of transfers based on creditor/debtor balances.
 - No database is used since all calculations are performed in-memory for each request.
 
+---
 
 ## Submission Question
 
