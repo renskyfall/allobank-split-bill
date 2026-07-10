@@ -1,4 +1,4 @@
-# Split Bill API for allobank
+# Split Bill API for Allo Bank
 
 Simple REST API to calculate split bill settlement between participants.
 
@@ -83,7 +83,7 @@ http://localhost:4110
 ### Calculate Settlement
 
 ```
-POST /api/v1/settlements
+POST /api/settlements
 ```
 
 Request
