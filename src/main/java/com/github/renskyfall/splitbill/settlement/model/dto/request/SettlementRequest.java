@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 public class SettlementRequest {
 
-    @NotEmpty(message = "Participants cannot be empty")
     @Valid
+    @NotEmpty(message = "Participants cannot be empty")    
     private List<ParticipantRequest> participants;
 
 }

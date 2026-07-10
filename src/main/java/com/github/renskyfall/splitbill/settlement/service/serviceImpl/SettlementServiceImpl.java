@@ -3,7 +3,9 @@ package com.github.renskyfall.splitbill.settlement.service.serviceImpl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.github.renskyfall.splitbill.settlement.exception.BadRequestException;
 import com.github.renskyfall.splitbill.settlement.model.Transaction;
 import com.github.renskyfall.splitbill.settlement.model.dto.Participant;
+import com.github.renskyfall.splitbill.settlement.model.dto.request.ParticipantRequest;
 import com.github.renskyfall.splitbill.settlement.model.dto.request.SettlementRequest;
 import com.github.renskyfall.splitbill.settlement.model.dto.response.SettlementResponse;
 import com.github.renskyfall.splitbill.settlement.model.dto.response.SettlementTransactionResponse;
@@ -67,11 +70,29 @@ public class SettlementServiceImpl implements SettlementService {
 
     private void validateRequest(SettlementRequest request) {
 
+        validateDuplicateParticipants(request.getParticipants());
+        
         if (request.getParticipants() == null || request.getParticipants().isEmpty()) {
             throw new BadRequestException("Participants cannot be empty.");
         }
 
     }
+
+    private void validateDuplicateParticipants(List<ParticipantRequest> participants) {
+
+    Set<String> participantNames = new HashSet<>();
+
+    for (ParticipantRequest participant : participants) {
+
+        String name = participant.getName().trim().toLowerCase();
+
+        if (!participantNames.add(name)) {
+            throw new BadRequestException(
+                    "Duplicate participant name: " + participant.getName()
+            );
+        }
+    }
+}
 
     private List<Participant> mapParticipants(SettlementRequest request) {
 
