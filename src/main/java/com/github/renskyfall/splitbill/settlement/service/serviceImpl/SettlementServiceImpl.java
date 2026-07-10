@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.github.renskyfall.splitbill.settlement.exception.BadRequestException;
 import com.github.renskyfall.splitbill.settlement.model.Transaction;
 import com.github.renskyfall.splitbill.settlement.model.dto.Participant;
 import com.github.renskyfall.splitbill.settlement.model.dto.request.SettlementRequest;
@@ -20,8 +21,13 @@ import com.github.renskyfall.splitbill.settlement.util.SettlementUtil;
 @Service
 public class SettlementServiceImpl implements SettlementService {
 
-    @Value("${app.github.username}")
-    private String githubUsername;
+    private final String githubUsername;
+
+    public SettlementServiceImpl(
+            @Value("${app.github.username}") String githubUsername) {
+
+        this.githubUsername = githubUsername;
+    }
     
     @Override
     public SettlementResponse calculateSettlement(SettlementRequest request) {
@@ -62,7 +68,7 @@ public class SettlementServiceImpl implements SettlementService {
     private void validateRequest(SettlementRequest request) {
 
         if (request.getParticipants() == null || request.getParticipants().isEmpty()) {
-            throw new IllegalArgumentException("Participants cannot be empty.");
+            throw new BadRequestException("Participants cannot be empty.");
         }
 
     }

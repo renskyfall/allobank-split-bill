@@ -1,4 +1,4 @@
-package com.github.renskyfall.split_bill;
+package com.github.renskyfall.splitbill;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
